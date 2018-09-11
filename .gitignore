@@ -4,6 +4,8 @@
 
 # CMake
 cmake-build-debug/
+*.DS_Store
+.DS_Store
 
 ## File-based project format:
 *.iws
