@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'de.sebastianboegl.shadow.transformer.log4j' version '2.1.1'
+}
+
+apply plugin: 'java'
+
+allprojects {
+    group 'online.potters'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+subprojects {
+    jar {
+        enabled = true
+    }
+}
+
+shadowJar.doLast {
+    file(shadowJar.archivePath).renameTo('Casper.jar')
+}
+
+dependencies {
+    compile project(':Common')
+    compile project(':Bukkit')
+    compile project(':Bungee')
+    compile project(':API')
+}
+
+
+tasks.build.dependsOn tasks.shadowJar

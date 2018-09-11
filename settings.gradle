@@ -1,0 +1,11 @@
+rootProject.name = 'Caspar'
+include ':Common'
+include ':Bukkit'
+include ':Bungee'
+include ':API'
+
+
+
+
+
+
