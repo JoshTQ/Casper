@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'maven-publish'
     id 'de.sebastianboegl.shadow.transformer.log4j' version '2.1.1'
 }
 
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 allprojects {
     group 'online.potters'
@@ -18,6 +20,13 @@ allprojects {
 subprojects {
     jar {
         enabled = true
+        apply plugin: 'maven-publish'
+    }
+
+    test {
+        testLogging {
+            exceptionFormat = 'full'
+        }
     }
 }
 
@@ -33,4 +42,8 @@ dependencies {
 }
 
 
-tasks.build.dependsOn tasks.shadowJar
+tasks.build {
+    dependsOn shadowJar
+    dependsOn publishToMavenLocal
+    dependsOn testClasses
+}

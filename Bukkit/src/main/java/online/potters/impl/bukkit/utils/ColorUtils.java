@@ -1,6 +1,6 @@
-package online.potters.api.locale;
+package online.potters.impl.bukkit.utils;
 
-import java.util.Arrays;
+import org.bukkit.ChatColor;
 
 /**
  *
@@ -24,41 +24,30 @@ import java.util.Arrays;
  *
  * @author PottersMC (2018)
  */
-public interface Message {
+public class ColorUtils {
 
 	/**
-	 * @return
+	 * @param input String to be reformatted.
+	 * @return The String Colorized with the '&' ColorChar.
 	 */
-	String getIdentifier();
-
-	default String get() {
-		return get(true);
+	public static String colorize(String input) {
+		return ChatColor.translateAlternateColorCodes('&', input);
 	}
 
-	default String get(boolean shouldFormat) {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		Arrays.stream(getList(shouldFormat)).forEach(message -> {
-					stringBuilder.append(message);
-					stringBuilder.append("\n");
-				}
-		);
-
-		return stringBuilder.toString();
+	/**
+	 * @param input String to be reformatted.
+	 * @return The String with all ColorCodes removed.
+	 */
+	public static String strip(String input) {
+		return ChatColor.stripColor(input);
 	}
 
-	default String[] getList() {
-		return getList(true);
+	/**
+	 * @param input String to check if it has ColorCodes.
+	 * @return Whether or not the String has ColorCodes.
+	 */
+	public static boolean hasColorCodes(String input) {
+		return colorize(input).equals(input);
 	}
-
-	String[] getList(boolean shouldFormat);
-
-	Message replace(String valueToReplace, String replacedBy);
-
-	void sendMessage(Object sendTo);
-
-	void sendMessage(Object sendTo, String permission);
-
-	void shout();
 
 }

@@ -8,4 +8,9 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile project(':API')
+    testCompile 'com.google.guava:guava:21.0'
+    compileOnly project(':API')
+    compileOnly 'com.google.code.gson:gson:2.8.0'
+    compileOnly 'com.google.guava:guava:21.0'
 }

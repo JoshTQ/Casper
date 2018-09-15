@@ -1,6 +1,15 @@
-package online.potters.api.locale;
+package online.potters.common.utils;
 
-import java.util.Arrays;
+import online.potters.api.utils.IRomanNumerals;
+import online.potters.impl.common.utils.RomanNumerals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.experimental.theories.DataPoint;
+import org.junit.experimental.theories.Theories;
+import org.junit.runner.RunWith;
 
 /**
  *
@@ -24,41 +33,19 @@ import java.util.Arrays;
  *
  * @author PottersMC (2018)
  */
-public interface Message {
 
-	/**
-	 * @return
-	 */
-	String getIdentifier();
+public class RomanNumeralTest {
 
-	default String get() {
-		return get(true);
+	@Test
+	public void romanNumeralTestingValues() {
+		RomanNumerals romanNumerals = new RomanNumerals();
+
+		assertEquals("RomanNumeral 1: ", "X", romanNumerals.toNumeral(10));
+		assertEquals("RomanNumeral 2: ", "MMXVIII", romanNumerals.toNumeral(2018));
+		assertEquals("RomanNumeral 3: ", "XIX", romanNumerals.toNumeral(19));
+		assertEquals("RomanNumeral 4: ", "MMMMCCCXXVII", romanNumerals.toNumeral(4327));
+
+		assertNull("RomanNumeral 5:", romanNumerals.toNumeral(-5));
+
 	}
-
-	default String get(boolean shouldFormat) {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		Arrays.stream(getList(shouldFormat)).forEach(message -> {
-					stringBuilder.append(message);
-					stringBuilder.append("\n");
-				}
-		);
-
-		return stringBuilder.toString();
-	}
-
-	default String[] getList() {
-		return getList(true);
-	}
-
-	String[] getList(boolean shouldFormat);
-
-	Message replace(String valueToReplace, String replacedBy);
-
-	void sendMessage(Object sendTo);
-
-	void sendMessage(Object sendTo, String permission);
-
-	void shout();
-
 }

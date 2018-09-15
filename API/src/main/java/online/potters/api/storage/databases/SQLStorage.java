@@ -1,6 +1,5 @@
 package online.potters.api.storage.databases;
 
-import com.sun.istack.internal.NotNull;
 import online.potters.api.utils.Callback;
 
 import java.sql.Connection;
@@ -31,9 +30,9 @@ public interface SQLStorage {
 
 	Connection getConnection();
 
-	void execute(@NotNull String query, Object... placeholders);
+	void execute(String query, Object... placeholders);
 
-	Callback execute(@NotNull Callback callback, @NotNull String query, Object... placeholders);
+	Callback execute(Callback callback, String query, Object... placeholders);
 
 	void close();
 

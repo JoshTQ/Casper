@@ -1,6 +1,4 @@
-package online.potters.api.locale;
-
-import java.util.Arrays;
+package online.potters.api.utils;
 
 /**
  *
@@ -24,41 +22,17 @@ import java.util.Arrays;
  *
  * @author PottersMC (2018)
  */
-public interface Message {
+public interface IRomanNumerals {
 
 	/**
-	 * @return
+	 * @param toConvert The String to convert to an Integer.
+	 * @return The value of the conversion.
 	 */
-	String getIdentifier();
+	int toInt(String toConvert);
 
-	default String get() {
-		return get(true);
-	}
-
-	default String get(boolean shouldFormat) {
-		StringBuilder stringBuilder = new StringBuilder();
-
-		Arrays.stream(getList(shouldFormat)).forEach(message -> {
-					stringBuilder.append(message);
-					stringBuilder.append("\n");
-				}
-		);
-
-		return stringBuilder.toString();
-	}
-
-	default String[] getList() {
-		return getList(true);
-	}
-
-	String[] getList(boolean shouldFormat);
-
-	Message replace(String valueToReplace, String replacedBy);
-
-	void sendMessage(Object sendTo);
-
-	void sendMessage(Object sendTo, String permission);
-
-	void shout();
-
+	/**
+	 * @param toConvert The Integer to convert to a Numeral.
+	 * @return The value of the conversion.
+	 */
+	String toNumeral(int toConvert);
 }
