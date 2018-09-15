@@ -1,15 +1,10 @@
 package online.potters.common.utils;
 
-import online.potters.api.utils.IRomanNumerals;
 import online.potters.impl.common.utils.RomanNumerals;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.experimental.theories.DataPoint;
-import org.junit.experimental.theories.Theories;
-import org.junit.runner.RunWith;
 
 /**
  *
@@ -33,7 +28,6 @@ import org.junit.runner.RunWith;
  *
  * @author PottersMC (2018)
  */
-
 public class RomanNumeralTest {
 
 	@Test

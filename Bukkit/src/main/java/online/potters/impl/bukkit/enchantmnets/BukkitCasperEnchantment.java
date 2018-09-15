@@ -81,7 +81,7 @@ public abstract class BukkitCasperEnchantment extends Enchantment implements Cas
 			return itemMeta.getEnchantLevel(this);
 		}
 
-		
+
 		return 0;
 	}
 
