@@ -46,7 +46,7 @@ public class DateUtilsTest {
 
 		Calendar testThree = Calendar.getInstance();
 
-		testThree.set(2019, 3, 3);
+		testThree.set(2019, 2, 3);
 
 		assertFalse("ExpiredDate Test 3:  ", dateUtils.hasPassed(testThree));
 
