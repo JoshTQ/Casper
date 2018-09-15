@@ -1,5 +1,6 @@
 package online.potters.common;
 
+import online.potters.common.utils.DateUtilsTest;
 import online.potters.common.utils.RomanNumeralTest;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -9,7 +10,8 @@ public class TestRunner {
 
 	public static void main(String[] args) {
 		Result result = JUnitCore.runClasses(
-				RomanNumeralTest.class
+				RomanNumeralTest.class,
+				DateUtilsTest.class
 		);
 
 		for (Failure failure : result.getFailures()) {

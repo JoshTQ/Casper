@@ -1,8 +1,6 @@
-package online.potters.api.bukkit.gui;
+package online.potters.api.utils;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemStack;
+import java.util.Calendar;
 
 /*
  *
@@ -26,40 +24,26 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author PottersMC (2018)
  */
-public interface GUIItem {
+public interface IDateUtils {
 
 	/**
-	 * @return The current ItemStack associated with this GUIItem.
+	 * @param time The Time you want to Check.
+	 * @return Whether or not that time is in the past.
 	 */
-	ItemStack getItemStack();
+	boolean hasPassed(Calendar time);
 
 	/**
-	 * @return Permission required to click on this item.
+	 * @param unixTime The time in Milliseconds.
+	 * @return Whether or not that time is in the past.
 	 */
-	default String getPermission() {
-		return null;
-	}
+	boolean hasPassed(long unixTime);
 
 	/**
-	 * @param itemStack Set the ItemStack in the Slot (Refreshing)
+	 * @param time   The time you want to format.
+	 * @param format The format to display the time (yyyy/MM/dd etc.)
+	 * @return String with the time successfully formatted.
 	 */
-	void setItemStack(ItemStack itemStack);
-
-	/**
-	 * @param player The Player who's trying to click the GUIItem.
-	 * @return Whether or not they can click the item.
-	 */
-	default boolean canClick(Player player) {
-		return true;
-	}
-
-	/**
-	 * Method ran when the player has clicked on the item and canClick.
-	 *
-	 * @param player Player who's clicking the item.
-	 * @param clickType Type of Click this player used.
-	 */
-	void onClick(Player player, ClickType clickType);
+	String formatDate(Calendar time, String format);
 
 
 }
