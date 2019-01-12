@@ -3,6 +3,7 @@ package online.potters.api.storage.databases;
 import online.potters.api.utils.Callback;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /*
  *
@@ -26,14 +27,30 @@ import java.sql.Connection;
  *
  * @author PottersMC (2018)
  */
-public interface SQLStorage {
+public interface ISQLStorage {
 
-	Connection getConnection();
+	/**
+	 * @return Existing connection to the Database.
+	 */
+	Connection getConnection() throws SQLException;
 
-	void execute(String query, Object... placeholders);
+	/**
+	 * @param query The SQL query you wish to execute.
+	 * @param statement Returns a PreparedStatement, set any placeholders here.
+	 */
+	boolean execute(String query, Callback statement);
 
-	Callback execute(Callback callback, String query, Object... placeholders);
+	/**
+	 * @param query The SQL query you wish to execute.
+	 * @param statement Returns a PreparedStatement, set any placeholders here.
+	 * @param result Result of the PreparedStatement.
+	 * @return
+	 */
+	boolean executeQuery(String query, Callback statement, Callback result);
 
+	/**
+	 * Close the connection to the Database.
+	 */
 	void close();
 
 }

@@ -1,9 +1,14 @@
 plugins {
     id 'java'
+    id 'build-announcements'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow'
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    jcenter()
 }
 
 dependencies {
@@ -11,6 +16,15 @@ dependencies {
     testCompile project(':API')
     testCompile 'com.google.guava:guava:21.0'
     compileOnly project(':API')
-    compileOnly 'com.google.code.gson:gson:2.8.0'
-    compileOnly 'com.google.guava:guava:21.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.google.guava:guava:21.0'
+    compile 'com.zaxxer:HikariCP:2.3.2'
+    compile 'commons-dbutils:commons-dbutils:1.7'
+}
+
+shadowJar {
+    dependencies {
+        include(dependency("com.zaxxer:HikariCP:.*"))
+        relocate 'com.zaxxer.hikari', 'online.potters.impl.common.internal.hikari'
+    }
 }

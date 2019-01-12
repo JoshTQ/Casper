@@ -1,5 +1,8 @@
 package online.potters.api.utils;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /*
  *
  *		     .-----.
@@ -24,6 +27,8 @@ package online.potters.api.utils;
  */
 public interface Callback {
 
-	void run(Object value);
+	void run(ResultSet resultSet);
+
+	PreparedStatement run(PreparedStatement preparedStatement);
 
 }

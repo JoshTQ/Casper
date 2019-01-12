@@ -52,7 +52,7 @@ public class DateUtilsTest {
 
 		Calendar testFour = new GregorianCalendar();
 
-		testFour.set(2018, testFour.getTime().getMonth(), testFour.getTime().getDate() + 1);
+		testFour.set(2019, testFour.getTime().getMonth(), testFour.getTime().getDate() + 1);
 
 		assertFalse("ExpiredDate Test 4: ", dateUtils.hasPassed(testFour));
 	}
