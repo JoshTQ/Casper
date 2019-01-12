@@ -27,8 +27,10 @@ import java.sql.ResultSet;
  */
 public interface Callback {
 
-	void run(ResultSet resultSet);
+	default void run(ResultSet resultSet) {}
 
-	PreparedStatement run(PreparedStatement preparedStatement);
+	default PreparedStatement run(PreparedStatement preparedStatement) {
+		return null;
+	}
 
 }
