@@ -88,9 +88,9 @@ public class DatabaseConnection implements ISQLStorage {
 			}
 		} catch (InterruptedException e) {
 			executorService.shutdownNow();
+		} finally {
+			hikariDataSource.close();
 		}
-
-		hikariDataSource.close();
 	}
 
 	public static class Builder {
