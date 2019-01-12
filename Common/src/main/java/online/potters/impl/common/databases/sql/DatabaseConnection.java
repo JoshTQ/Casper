@@ -62,7 +62,7 @@ public class DatabaseConnection implements ISQLStorage {
 			try {
 				connection = getConnection();
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement = statement.run(preparedStatement);
+				statement.run(preparedStatement);
 				preparedStatement.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -82,7 +82,7 @@ public class DatabaseConnection implements ISQLStorage {
 			try {
 				connection = getConnection();
 				preparedStatement = connection.prepareStatement(query);
-				preparedStatement = statement.run(preparedStatement);
+				statement.run(preparedStatement);
 				resultSet = preparedStatement.executeQuery();
 				result.run(resultSet);
 			} catch (SQLException e) {
