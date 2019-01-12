@@ -4,7 +4,7 @@ import online.potters.api.utils.IRomanNumerals;
 
 import java.util.TreeMap;
 
-/*
+/**
  *
  *		     .-----.
  *		   .' -   - '.
@@ -25,7 +25,7 @@ import java.util.TreeMap;
  *  	  	        `..'
  *
  * @author PottersMC (2018)
- */
+ **/
 public class RomanNumerals implements IRomanNumerals {
 
 	private TreeMap<Integer, String> numerals;
