@@ -3,13 +3,12 @@ package online.potters.impl.common.databases.sql;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import online.potters.api.utils.Callback;
+import lombok.NonNull;
 import online.potters.api.storage.databases.ISQLStorage;
-import org.apache.commons.dbutils.DbUtils;
+import online.potters.api.utils.Callback;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -59,18 +58,11 @@ public class DatabaseConnection implements ISQLStorage {
 	@Override
 	public boolean execute(String query, Callback statement) {
 		return executorService.submit(() -> {
-			PreparedStatement preparedStatement = null;
-			Connection connection = null;
-			try {
-				connection = getConnection();
-				preparedStatement = connection.prepareStatement(query);
+			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
 				preparedStatement.execute();
 			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				DbUtils.closeQuietly(preparedStatement);
-				DbUtils.closeQuietly(connection);
+				throw new RuntimeException(e);
 			}
 		}).isDone();
 	}
@@ -78,21 +70,11 @@ public class DatabaseConnection implements ISQLStorage {
 	@Override
 	public boolean executeQuery(String query, Callback statement, Callback result) {
 		return executorService.submit(() -> {
-			PreparedStatement preparedStatement = null;
-			Connection connection = null;
-			ResultSet resultSet = null;
-			try {
-				connection = getConnection();
-				preparedStatement = connection.prepareStatement(query);
+			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
-				resultSet = preparedStatement.executeQuery();
-				result.run(resultSet);
+				result.run(preparedStatement.executeQuery());
 			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				DbUtils.closeQuietly(preparedStatement);
-				DbUtils.closeQuietly(resultSet);
-				DbUtils.closeQuietly(connection);
+				throw new RuntimeException(e);
 			}
 		}).isDone();
 	}
@@ -111,21 +93,20 @@ public class DatabaseConnection implements ISQLStorage {
 		hikariDataSource.close();
 	}
 
-	static class Builder {
+	public static class Builder {
 
 		private int port = 3306;
-		private String hostAddress = "localhost";
+		private String hostAddress;
 		private String password = null;
 		private String username = "root";
 		private String database = "minecraft";
 
-		public Builder atPort(int port) {
-			this.port = port;
-			return this;
+		public Builder(@NonNull String hostAddress) {
+			this.hostAddress = hostAddress;
 		}
 
-		public Builder atHost(String hostAddress) {
-			this.hostAddress = hostAddress;
+		public Builder atPort(int port) {
+			this.port = port;
 			return this;
 		}
 
