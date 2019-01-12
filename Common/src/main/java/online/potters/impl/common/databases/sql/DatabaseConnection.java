@@ -35,10 +35,11 @@ public class DatabaseConnection implements ISQLStorage {
 	private void connect() {
 		HikariConfig hikariConfig = new HikariConfig();
 
-		hikariConfig.setJdbcUrl("jdbc:mysql://%host%:%port%/%database%?autoReconnect=true"
-				.replace("%host%", address)
-				.replace("%port%", String.valueOf(port))
-				.replace("%database%", database));
+		hikariConfig.setJdbcUrl(String.format("jdbc:mysql://%s:%d/%s?autoReconnect=true",
+				address,
+				port,
+				database
+		));
 		hikariConfig.setUsername(username);
 		passwordOptional.ifPresent(hikariConfig::setPassword);
 		hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
