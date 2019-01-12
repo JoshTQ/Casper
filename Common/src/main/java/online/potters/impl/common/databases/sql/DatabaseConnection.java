@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ public class DatabaseConnection implements ISQLStorage {
 	private String address;
 	private int port;
 	private String username;
-	private String password;
+	private Optional<String> passwordOptional;
 	private String database;
 
 	private HikariDataSource hikariDataSource;
@@ -38,7 +39,7 @@ public class DatabaseConnection implements ISQLStorage {
 				.replace("%port%", String.valueOf(port))
 				.replace("%database%", database));
 		hikariConfig.setUsername(username);
-		hikariConfig.setPassword(password);
+		passwordOptional.ifPresent(hikariConfig::setPassword);
 		hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
 		hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
 		hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -112,9 +113,9 @@ public class DatabaseConnection implements ISQLStorage {
 
 		private int port = 3306;
 		private String hostAddress = "localhost";
-		private String password;
+		private String password = null;
 		private String username = "root";
-		private String database;
+		private String database = "minecraft";
 
 		public Builder atPort(int port) {
 			this.port = port;
@@ -147,7 +148,7 @@ public class DatabaseConnection implements ISQLStorage {
 			databaseConnection.address = this.hostAddress;
 			databaseConnection.port = this.port;
 			databaseConnection.username = this.username;
-			databaseConnection.password = this.password;
+			databaseConnection.passwordOptional = Optional.ofNullable(this.password);
 			databaseConnection.database = this.database;
 
 			databaseConnection.connect();
