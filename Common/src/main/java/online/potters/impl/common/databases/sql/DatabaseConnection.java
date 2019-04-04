@@ -80,27 +80,27 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	@Override
-	public boolean execute(String query, Callback statement) {
-		return executorService.submit(() -> {
+	public void execute(String query, Callback statement) {
+		executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
 				preparedStatement.execute();
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
 			}
-		}).isDone();
+		});
 	}
 
 	@Override
-	public boolean executeQuery(String query, Callback statement, Callback result) {
-		return executorService.submit(() -> {
+	public void executeQuery(String query, Callback statement, Callback result) {
+		executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
 				result.run(preparedStatement.executeQuery());
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
 			}
-		}).isDone();
+		});
 	}
 
 	@Override

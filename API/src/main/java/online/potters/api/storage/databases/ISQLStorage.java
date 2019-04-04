@@ -38,15 +38,14 @@ public interface ISQLStorage {
 	 * @param query The SQL query you wish to execute.
 	 * @param statement Returns a PreparedStatement, set any placeholders here.
 	 */
-	boolean execute(String query, Callback statement);
+	void execute(String query, Callback statement);
 
 	/**
 	 * @param query The SQL query you wish to execute.
 	 * @param statement Returns a PreparedStatement, set any placeholders here.
 	 * @param result Result of the PreparedStatement.
-	 * @return
 	 */
-	boolean executeQuery(String query, Callback statement, Callback result);
+	void executeQuery(String query, Callback statement, Callback result);
 
 	/**
 	 * Close the connection to the Database.
