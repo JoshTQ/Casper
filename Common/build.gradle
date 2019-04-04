@@ -20,6 +20,7 @@ dependencies {
     compile 'com.google.guava:guava:21.0'
     compile 'com.zaxxer:HikariCP:2.3.2'
     compile 'commons-dbutils:commons-dbutils:1.7'
+    compile 'mysql:mysql-connector-java:8.0.15'
     compileOnly 'org.projectlombok:lombok:1.18.4'
 }
 

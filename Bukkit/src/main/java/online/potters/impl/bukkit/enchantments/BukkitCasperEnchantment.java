@@ -1,4 +1,4 @@
-package online.potters.impl.bukkit.enchantmnets;
+package online.potters.impl.bukkit.enchantments;
 
 import com.google.common.collect.ImmutableList;
 import online.potters.api.bukkit.enchantments.CasperEnchantment;

@@ -4,7 +4,6 @@ import online.potters.impl.common.utils.RomanNumerals;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  *
@@ -39,7 +38,12 @@ public class RomanNumeralTest {
 		assertEquals("RomanNumeral 3: ", "XIX", romanNumerals.toNumeral(19));
 		assertEquals("RomanNumeral 4: ", "MMMMCCCXXVII", romanNumerals.toNumeral(4327));
 
-		assertNull("RomanNumeral 5:", romanNumerals.toNumeral(-5));
+		assertEquals("RomanNumeral 5: ", 10, romanNumerals.toInt("X"));
+		assertEquals("RomanNumeral 6: ", 2018, romanNumerals.toInt("MMXVIII"));
+		assertEquals("RomanNumeral 7: ", 19, romanNumerals.toInt("XIX"));
+		assertEquals("RomanNumeral 8: ", 4327, romanNumerals.toInt("MMMMCCCXXVII"));
+		assertEquals("RomanNumeral 9:", -1, romanNumerals.toInt("JFN"));
+
 
 	}
 }

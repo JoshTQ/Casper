@@ -3,6 +3,7 @@ package online.potters.impl.common.databases.sql;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 import lombok.NonNull;
 import online.potters.api.storage.databases.ISQLStorage;
 import online.potters.api.utils.Callback;
@@ -47,20 +48,21 @@ public class DatabaseConnection implements ISQLStorage {
 
 	private HikariDataSource hikariDataSource;
 
+	@Getter
 	private ExecutorService executorService;
 
 	private DatabaseConnection() {
-		executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("caspar-sql-%").build());
+		executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("caspar-sql-%d").build());
 	}
 
 	private void connect() {
 		HikariConfig hikariConfig = new HikariConfig();
+		hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
+		hikariConfig.setJdbcUrl("jdbc:mysql://{host}:{port}/{database}?autoReconnect=true"
+				.replace("{host}", address)
+				.replace("{port}", String.valueOf(port))
+				.replace("{database}", database));
 
-		hikariConfig.setJdbcUrl(String.format("jdbc:mysql://%s:%d/%s?autoReconnect=true",
-				address,
-				port,
-				database
-		));
 		hikariConfig.setUsername(username);
 		passwordOptional.ifPresent(hikariConfig::setPassword);
 		hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
@@ -155,6 +157,7 @@ public class DatabaseConnection implements ISQLStorage {
 			databaseConnection.username = this.username;
 			databaseConnection.passwordOptional = Optional.ofNullable(this.password);
 			databaseConnection.database = this.database;
+			System.out.println("Successfully ported data. Connecting....");
 
 			databaseConnection.connect();
 
