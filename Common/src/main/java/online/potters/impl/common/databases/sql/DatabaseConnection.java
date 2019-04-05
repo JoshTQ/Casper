@@ -3,10 +3,12 @@ package online.potters.impl.common.databases.sql;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import online.potters.api.storage.databases.ISQLStorage;
 import online.potters.api.utils.Callback;
+import org.sql2o.Sql2o;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +49,7 @@ public class DatabaseConnection implements ISQLStorage {
 	private String database;
 
 	private HikariDataSource hikariDataSource;
+	private Sql2o sql2o;
 
 	@Getter
 	private ExecutorService executorService;
@@ -71,12 +74,17 @@ public class DatabaseConnection implements ISQLStorage {
 		hikariConfig.setMaximumPoolSize(10);
 		hikariConfig.setMaxLifetime(5000);
 
-		hikariDataSource = new HikariDataSource(hikariConfig);
+		this.hikariDataSource = new HikariDataSource(hikariConfig);
+		this.sql2o = new Sql2o(hikariDataSource);
 	}
 
 	@Override
 	public Connection getConnection() throws SQLException {
 		return hikariDataSource.getConnection();
+	}
+
+	public Sql2o getSql2o() {
+		return this.sql2o;
 	}
 
 	@Override

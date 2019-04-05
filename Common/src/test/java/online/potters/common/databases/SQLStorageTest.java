@@ -18,12 +18,11 @@ public class SQLStorageTest {
 		try {
 			databaseConnection = new DatabaseConnection.Builder("127.0.0.1")
 					.atPort(3306)
+					.withDatabase("testDatabase")
 					.withUsername("root")
 					.withPassword("testPassword")
-					.withDatabase("testDatabase")
 					.build();
 
-			// No need to be async -> Testing only.
 			databaseConnection.execute("SELECT * FROM testing", new Callback() {
 				@Override
 				public void run(ResultSet resultSet) {

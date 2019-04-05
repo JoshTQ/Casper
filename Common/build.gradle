@@ -21,12 +21,13 @@ dependencies {
     compile 'com.zaxxer:HikariCP:2.3.2'
     compile 'commons-dbutils:commons-dbutils:1.7'
     compile 'mysql:mysql-connector-java:8.0.15'
+    compile 'org.sql2o:sql2o:1.5.4'
     compileOnly 'org.projectlombok:lombok:1.18.4'
 }
 
 shadowJar {
     dependencies {
         include(dependency("com.zaxxer:HikariCP:.*"))
-        relocate 'com.zaxxer.hikari', 'online.potters.impl.common.internal.hikari'
+        include(dependency("org.sql2o:sql2o:.*"))
     }
 }
