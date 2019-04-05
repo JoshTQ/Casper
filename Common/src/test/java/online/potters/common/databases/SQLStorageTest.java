@@ -15,6 +15,7 @@ public class SQLStorageTest {
 	@Test
 	public void databaseConnect() {
 		DatabaseConnection databaseConnection = null;
+
 		try {
 			databaseConnection = new DatabaseConnection.Builder("127.0.0.1")
 					.atPort(3306)

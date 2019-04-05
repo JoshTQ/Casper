@@ -55,7 +55,7 @@ public class DatabaseConnection implements ISQLStorage {
 	private ExecutorService executorService;
 
 	private DatabaseConnection() {
-		executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("caspar-sql-%d").build());
+		this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("caspar-sql-%d").build());
 	}
 
 	private void connect() {
@@ -80,7 +80,7 @@ public class DatabaseConnection implements ISQLStorage {
 
 	@Override
 	public Connection getConnection() throws SQLException {
-		return hikariDataSource.getConnection();
+		return this.hikariDataSource.getConnection();
 	}
 
 	public Sql2o getSql2o() {
@@ -89,7 +89,7 @@ public class DatabaseConnection implements ISQLStorage {
 
 	@Override
 	public void execute(String query, Callback statement) {
-		executorService.submit(() -> {
+		this.executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
 				preparedStatement.execute();
@@ -101,7 +101,7 @@ public class DatabaseConnection implements ISQLStorage {
 
 	@Override
 	public void executeQuery(String query, Callback statement, Callback result) {
-		executorService.submit(() -> {
+		this.executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
 				statement.run(preparedStatement);
 				result.run(preparedStatement.executeQuery());
@@ -113,15 +113,15 @@ public class DatabaseConnection implements ISQLStorage {
 
 	@Override
 	public void close() {
-		executorService.shutdown();
+		this.executorService.shutdown();
 		try {
-			if (!executorService.awaitTermination(3, TimeUnit.SECONDS)) {
-				executorService.shutdownNow();
+			if (!this.executorService.awaitTermination(3, TimeUnit.SECONDS)) {
+				this.executorService.shutdownNow();
 			}
 		} catch (InterruptedException e) {
-			executorService.shutdownNow();
+			this.executorService.shutdownNow();
 		} finally {
-			hikariDataSource.close();
+			this.hikariDataSource.close();
 		}
 	}
 
