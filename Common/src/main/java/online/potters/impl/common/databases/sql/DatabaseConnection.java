@@ -79,7 +79,7 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	@Override
-	public Connection getConnection() throws SQLException {
+	public  Connection getConnection() throws SQLException {
 		return this.hikariDataSource.getConnection();
 	}
 
@@ -90,7 +90,7 @@ public class DatabaseConnection implements ISQLStorage {
 	@Override
 	public void execute(String query, Callback statement) {
 		this.executorService.submit(() -> {
-			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
+			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 				statement.run(preparedStatement);
 				preparedStatement.execute();
 			} catch (SQLException e) {

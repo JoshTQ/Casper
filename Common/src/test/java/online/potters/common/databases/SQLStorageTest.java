@@ -24,16 +24,13 @@ public class SQLStorageTest {
 					.withPassword("testPassword")
 					.build();
 
-			databaseConnection.execute("SELECT * FROM testing", new Callback() {
-				@Override
-				public void run(ResultSet resultSet) {
-					try {
-						while (resultSet.next()) {
-							System.out.println("Found data: " + resultSet.getString("test"));
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
+			databaseConnection.execute("SELECT * FROM testing", (Callback<ResultSet>) resultSet -> {
+				try {
+					while (resultSet.next()) {
+						System.out.println("Found data: " + resultSet.getString("test"));
 					}
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			});
 		} finally {

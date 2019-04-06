@@ -25,12 +25,8 @@ import java.sql.ResultSet;
  *
  * @author PottersMC (2018)
  */
-public interface Callback {
+public interface Callback<T> {
 
-	default void run(ResultSet resultSet) {}
-
-	default PreparedStatement run(PreparedStatement preparedStatement) {
-		return null;
-	}
+	void run(T type);
 
 }
