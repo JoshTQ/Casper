@@ -4,6 +4,7 @@ import online.potters.api.utils.Callback;
 import online.potters.impl.common.databases.sql.DatabaseConnection;
 import org.junit.Test;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
@@ -24,8 +25,9 @@ public class SQLStorageTest {
 					.withPassword("testPassword")
 					.build();
 
-			databaseConnection.execute("SELECT * FROM testing", (Callback<ResultSet>) resultSet -> {
+			databaseConnection.executeQuery("SELECT * FROM testing", null, resultSet -> {
 				try {
+					System.out.println("Outputting Data ...");
 					while (resultSet.next()) {
 						System.out.println("Found data: " + resultSet.getString("test"));
 					}
@@ -33,9 +35,12 @@ public class SQLStorageTest {
 					e.printStackTrace();
 				}
 			});
+
 		} finally {
 			if (databaseConnection != null) {
 				databaseConnection.close();
+			} else {
+				fail("DatabaseConnection instance was null!");
 			}
 		}
 

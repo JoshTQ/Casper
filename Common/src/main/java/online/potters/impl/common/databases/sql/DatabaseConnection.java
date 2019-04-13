@@ -3,7 +3,6 @@ package online.potters.impl.common.databases.sql;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import online.potters.api.storage.databases.ISQLStorage;
@@ -12,6 +11,7 @@ import org.sql2o.Sql2o;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -59,23 +59,27 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	private void connect() {
-		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
-		hikariConfig.setJdbcUrl("jdbc:mysql://{host}:{port}/{database}?autoReconnect=true"
-				.replace("{host}", address)
-				.replace("{port}", String.valueOf(port))
-				.replace("{database}", database));
+		executorService.submit(() -> {
+			long startTime = System.currentTimeMillis();
+			HikariConfig hikariConfig = new HikariConfig();
+			hikariConfig.setDriverClassName("com.mysql.jdbc.Driver");
+			hikariConfig.setJdbcUrl("jdbc:mysql://{host}:{port}/{database}?autoReconnect=true"
+					.replace("{host}", address)
+					.replace("{port}", String.valueOf(port))
+					.replace("{database}", database));
 
-		hikariConfig.setUsername(username);
-		passwordOptional.ifPresent(hikariConfig::setPassword);
-		hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
-		hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
-		hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-		hikariConfig.setMaximumPoolSize(10);
-		hikariConfig.setMaxLifetime(5000);
+			hikariConfig.setUsername(username);
+			passwordOptional.ifPresent(hikariConfig::setPassword);
+			hikariConfig.addDataSourceProperty("cachePrepStmts", "true");
+			hikariConfig.addDataSourceProperty("prepStmtCacheSize", "250");
+			hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+			hikariConfig.setMaximumPoolSize(10);
+			hikariConfig.setMaxLifetime(5000);
 
-		this.hikariDataSource = new HikariDataSource(hikariConfig);
-		this.sql2o = new Sql2o(hikariDataSource);
+			this.hikariDataSource = new HikariDataSource(hikariConfig);
+			this.sql2o = new Sql2o(hikariDataSource);
+			System.out.println("Successfully connected to Database in " + (System.currentTimeMillis() - startTime) + "ms!");
+		});
 	}
 
 	@Override
@@ -88,10 +92,10 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	@Override
-	public void execute(String query, Callback statement) {
+	public void execute(String query, Callback<PreparedStatement> statement) {
 		this.executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-				statement.run(preparedStatement);
+				if (statement != null) statement.run(preparedStatement);
 				preparedStatement.execute();
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
@@ -100,11 +104,11 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	@Override
-	public void executeQuery(String query, Callback statement, Callback result) {
+	public void executeQuery(String query, Callback<PreparedStatement> statement, Callback<ResultSet> result) {
 		this.executorService.submit(() -> {
 			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
-				statement.run(preparedStatement);
-				result.run(preparedStatement.executeQuery());
+				if (statement != null) statement.run(preparedStatement);
+				if (result != null) result.run(preparedStatement.executeQuery());
 			} catch (SQLException e) {
 				throw new RuntimeException(e);
 			}
@@ -165,8 +169,6 @@ public class DatabaseConnection implements ISQLStorage {
 			databaseConnection.username = this.username;
 			databaseConnection.passwordOptional = Optional.ofNullable(this.password);
 			databaseConnection.database = this.database;
-			System.out.println("Successfully ported data. Connecting....");
-
 			databaseConnection.connect();
 
 			return databaseConnection;
