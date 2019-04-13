@@ -1,6 +1,7 @@
-package online.potters.api.locale;
+package online.potters.api.queue;
 
-import online.potters.api.storage.YAMLStorage;
+import java.util.Optional;
+import java.util.PriorityQueue;
 
 /*
  *
@@ -24,10 +25,12 @@ import online.potters.api.storage.YAMLStorage;
  *
  * @author PottersMC (2019)
  */
-public interface Locale extends YAMLStorage {
+public interface ICasparQueue<T> {
 
-	boolean loadFile();
-
-	boolean saveFile();
+	/**
+	 * @param searchItem Item you want the index value of.
+	 * @return Index of the item (or -1 if not present)
+	 */
+	int indexOf(Object searchItem);
 
 }

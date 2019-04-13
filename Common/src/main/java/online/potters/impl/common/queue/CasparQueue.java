@@ -1,6 +1,9 @@
-package online.potters.api.locale;
+package online.potters.impl.common.queue;
 
-import online.potters.api.storage.YAMLStorage;
+import online.potters.api.queue.ICasparQueue;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /*
  *
@@ -24,10 +27,19 @@ import online.potters.api.storage.YAMLStorage;
  *
  * @author PottersMC (2019)
  */
-public interface Locale extends YAMLStorage {
+public class CasparQueue<T> extends PriorityQueue<T> implements ICasparQueue<T> {
 
-	boolean loadFile();
+	public CasparQueue(Comparator<T> comparator) {
+		super(comparator);
+	}
 
-	boolean saveFile();
+	public int indexOf(Object searchItem) {
+		for (int i = 0; i < this.size(); i++) {
+			if (searchItem.equals(this.toArray()[i])) {
+				return i;
+			}
+		}
 
+		return -1;
+	}
 }
