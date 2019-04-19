@@ -1,5 +1,6 @@
 package online.potters.common;
 
+import online.potters.common.managers.InstanceManagerTest;
 import online.potters.common.queue.QueueTest;
 import online.potters.common.utils.DateUtilsTest;
 import online.potters.common.utils.RomanNumeralTest;
@@ -13,7 +14,8 @@ public class TestRunner {
 		Result result = JUnitCore.runClasses(
 				RomanNumeralTest.class,
 				DateUtilsTest.class,
-				QueueTest.class
+				QueueTest.class,
+				InstanceManagerTest.class
 		);
 
 		for (Failure failure : result.getFailures()) {
