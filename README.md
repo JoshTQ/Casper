@@ -9,7 +9,7 @@ documentation for this very soon, upon completion.
 
 # Why so slow?
 
-Casper is a library I was developing to speed up my work when freelancing for various Networks. I'm currently in employment, and would not be allowed to use it. However, I will mainly be working on Casper for my Portfolio, and I'm excited to announce that Casper has an aimed release date of <b>March 2019</b>. This is mainly due to various exams I have on due to school, and the fact that this is carried out in my spare time. 
+Casper is a library I was developing to speed up my work when freelancing for various Networks. I'm currently in employment, and would not be allowed to use it. However, I will mainly be working on Casper for my Portfolio, and I'm excited to announce that Casper has an aimed release date of <b>June 2019</b>. This is mainly due to various exams I have on due to school, and the fact that this is carried out in my spare time. 
 
 # Planned Additions?
 
