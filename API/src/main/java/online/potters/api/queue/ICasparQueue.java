@@ -1,8 +1,5 @@
 package online.potters.api.queue;
 
-import java.util.Optional;
-import java.util.PriorityQueue;
-
 /*
  *
  *		     .-----.

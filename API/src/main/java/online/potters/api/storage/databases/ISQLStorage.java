@@ -37,15 +37,15 @@ public interface ISQLStorage {
 	Connection getConnection() throws SQLException;
 
 	/**
-	 * @param query The SQL query you wish to execute.
+	 * @param query     The SQL query you wish to execute.
 	 * @param statement Returns a PreparedStatement, set any placeholders here.
 	 */
 	void execute(String query, Callback<PreparedStatement> statement);
 
 	/**
-	 * @param query The SQL query you wish to execute.
+	 * @param query     The SQL query you wish to execute.
 	 * @param statement Returns a PreparedStatement, set any placeholders here.
-	 * @param result Result of the PreparedStatement.
+	 * @param result    Result of the PreparedStatement.
 	 */
 	void executeQuery(String query, Callback<PreparedStatement> statement, Callback<ResultSet> result);
 

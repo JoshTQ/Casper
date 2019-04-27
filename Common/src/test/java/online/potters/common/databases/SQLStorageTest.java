@@ -1,11 +1,8 @@
 package online.potters.common.databases;
 
-import online.potters.api.utils.Callback;
 import online.potters.impl.common.databases.sql.DatabaseConnection;
 import org.junit.Test;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 

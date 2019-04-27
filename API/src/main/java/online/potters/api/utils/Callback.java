@@ -1,8 +1,5 @@
 package online.potters.api.utils;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 /*
  *
  *		     .-----.

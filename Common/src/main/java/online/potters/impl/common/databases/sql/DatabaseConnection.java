@@ -19,24 +19,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- *		     .-----.
- *		   .' -   - '.
- *		  /  .-. .-.  \  	   .--.      .---.      .--.       .-..     .--.    ___ .-.
- *		  |  | | | |  |  	  /    \    / .-, \   /  _  \     /    \   /    \  (   )   \
- *		   \ \o/ \o/ /   	 |  .-. ;  (__) ; |  . .' `. ;   ' .-,  ; |  .-. ;  | ' .-. ;
- *		  _/    ^    \_  	 |  |(___)   .'`  |  | '   | |   | |  . | |  | | |  |  / (___)
- * 		| \  '---'  / |  	 |  |       / .'| |  _\_`.(___)  | |  | | |  |/  |  | |
- * 		/ /`--. .--`\ \  	 |  | ___  | /  | | (   ). '.    | |  | | |  ' _.'  | |
- *		/ /'---` `---'\ \	 |  '(   ) ; |  ; |  | |  `\ |   | |  ' | |  .'.-.  | |
- *		'.__.       .__.'	 '  `-' |  ' `-'  |  ; '._,' '   | `-'  ' '  `-' /  | |
- *		    `|     |`    	  `.__,'   `.__.'_.   '.___.'    | \__.'   `.__.'  (___)
- *		     |     \     	                                 | |
- *		    \      '--.   	                                (___)
- *  		    '.        `\
- * 	 	      `'---.   |
- *  	 	        ,__) /
- *  	  	        `..'
+ * .-----.
+ * .' -   - '.
+ * /  .-. .-.  \  	   .--.      .---.      .--.       .-..     .--.    ___ .-.
+ * |  | | | |  |  	  /    \    / .-, \   /  _  \     /    \   /    \  (   )   \
+ * \ \o/ \o/ /   	 |  .-. ;  (__) ; |  . .' `. ;   ' .-,  ; |  .-. ;  | ' .-. ;
+ * _/    ^    \_  	 |  |(___)   .'`  |  | '   | |   | |  . | |  | | |  |  / (___)
+ * | \  '---'  / |  	 |  |       / .'| |  _\_`.(___)  | |  | | |  |/  |  | |
+ * / /`--. .--`\ \  	 |  | ___  | /  | | (   ). '.    | |  | | |  ' _.'  | |
+ * / /'---` `---'\ \	 |  '(   ) ; |  ; |  | |  `\ |   | |  ' | |  .'.-.  | |
+ * '.__.       .__.'	 '  `-' |  ' `-'  |  ; '._,' '   | `-'  ' '  `-' /  | |
+ * `|     |`    	  `.__,'   `.__.'_.   '.___.'    | \__.'   `.__.'  (___)
+ * |     \     	                                 | |
+ * \      '--.   	                                (___)
+ * '.        `\
+ * `'---.   |
+ * ,__) /
+ * `..'
  *
  * @author PottersMC (2019)
  **/
@@ -83,7 +82,7 @@ public class DatabaseConnection implements ISQLStorage {
 	}
 
 	@Override
-	public  Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 		return this.hikariDataSource.getConnection();
 	}
 
@@ -106,7 +105,7 @@ public class DatabaseConnection implements ISQLStorage {
 	@Override
 	public void executeQuery(String query, Callback<PreparedStatement> statement, Callback<ResultSet> result) {
 		this.executorService.submit(() -> {
-			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)){
+			try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 				if (statement != null) statement.run(preparedStatement);
 				if (result != null) result.run(preparedStatement.executeQuery());
 			} catch (SQLException e) {

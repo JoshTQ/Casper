@@ -34,16 +34,16 @@ public interface GUIItem {
 	ItemStack getItemStack();
 
 	/**
+	 * @param itemStack Set the ItemStack in the Slot (Refreshing)
+	 */
+	void setItemStack(ItemStack itemStack);
+
+	/**
 	 * @return Permission required to click on this item.
 	 */
 	default String getPermission() {
 		return null;
 	}
-
-	/**
-	 * @param itemStack Set the ItemStack in the Slot (Refreshing)
-	 */
-	void setItemStack(ItemStack itemStack);
 
 	/**
 	 * @param player The Player who's trying to click the GUIItem.
@@ -56,7 +56,7 @@ public interface GUIItem {
 	/**
 	 * Method ran when the player has clicked on the item and canClick.
 	 *
-	 * @param player Player who's clicking the item.
+	 * @param player    Player who's clicking the item.
 	 * @param clickType Type of Click this player used.
 	 */
 	void onClick(Player player, ClickType clickType);

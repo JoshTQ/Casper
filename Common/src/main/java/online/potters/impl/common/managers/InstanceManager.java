@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class InstanceManager<T>  {
+public class InstanceManager<T> {
 
 	private HashSet<T> CACHED_INSTANCES;
 
