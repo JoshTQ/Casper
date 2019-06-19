@@ -40,7 +40,6 @@ public class InstanceManager<T> {
 	}
 
 	public void shutdown() {
-		this.CACHED_INSTANCES.clear();
 		this.CACHED_INSTANCES = null;
 	}
 

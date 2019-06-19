@@ -4,6 +4,7 @@ import online.potters.impl.common.managers.InstanceManager;
 import org.junit.Test;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.*;
 
@@ -24,6 +25,15 @@ public class InstanceManagerTest {
 		assertEquals(manager.getCachedObject(testData -> testData.getPassword().equals("testing")), Optional.of(dataOne));
 
 		assertNull(manager.getCachedObject(testData -> testData.getPassword().equals("test")).orElse(null));
+
+		AtomicInteger runTime = new AtomicInteger(0);
+
+		manager.initObjects((testData) -> runTime.incrementAndGet());
+
+		if (runTime.get() != 2) {
+			fail("InitObjects didn't init all objects!");
+		}
+
 		manager.shutdown();
 	}
 
